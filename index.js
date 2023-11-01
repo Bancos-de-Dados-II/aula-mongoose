@@ -32,3 +32,19 @@ const eventoSchema = new Schema({
         }
       }
 });
+
+const Evento = mongoose.model('Evento', eventoSchema);
+
+const sertaoComp = new Evento({
+    titulo: 'Sertão Comp',
+    descricao: 'Encontro de computação do sertão',
+    data: new Date(),
+    inscritos: 100,
+    tipo: 'Tecnológico',
+    localizacao: {
+        type: 'Point',
+        coordinates: [-38.5443, -6.8897]
+    }
+});
+
+sertaoComp.save().then(() => console.log('Salvo com sucesso!')).catch(err => console.log(err));
