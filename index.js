@@ -1,50 +1,15 @@
-require('dotenv').config();
-const mongoose = require('mongoose');
+const Evento = require('./model/Evento');
 
-main().catch(err => console.log(err));
-
-async function main() {
-  await mongoose.connect(process.env.MONGO_URL);
-  console.log('Conectado com o Mongo');
-}
-
-const {Schema} = mongoose;
-
-const eventoSchema = new Schema({
-    titulo: String,
-    descricao: String,
-    data: Date,
-    inscritos: Number,
-    tipo: {
-        type: String,
-        enum: ['Científico', 'Tecnológico', 'Cultural', 'Esportivo'],
-        default:  'Científico' 
-    },
-    localizacao: {
-        type: {
-          type: String, // Don't do `{ location: { type: String } }`
-          enum: ['Point'], // 'location.type' must be 'Point'
-          required: true
-        },
-        coordinates: {
-          type: [Number],
-          required: true
-        }
-      }
-});
-
-const Evento = mongoose.model('Evento', eventoSchema);
-
-const sertaoComp = new Evento({
-    titulo: 'Sertão Comp',
-    descricao: 'Encontro de computação do sertão',
-    data: new Date(),
-    inscritos: 100,
+const evento = new Evento({
+    titulo: 'Exponegócios',
+    descricao: 'Cajazeiras Exponegócios',
+    data: new Date("2023-11-16"),
+    inscritos: 1000,
     tipo: 'Tecnológico',
     localizacao: {
         type: 'Point',
-        coordinates: [-38.5443, -6.8897]
+        coordinates: [-38.5672, -6.9002]
     }
 });
 
-sertaoComp.save().then(() => console.log('Salvo com sucesso!')).catch(err => console.log(err));
+evento.save().then((retorno) => console.log(retorno)).catch(err => console.log(err));
