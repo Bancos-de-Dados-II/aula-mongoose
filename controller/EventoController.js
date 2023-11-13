@@ -18,7 +18,8 @@ module.exports.buscarPorId = async function (req, res) {
 };
 
 module.exports.salvarEvento = async function (req, res) {
-    res.json('OK');
+    const retorno = await Evento.create(req.body);
+    res.status(201).json(retorno);
 };
 
 module.exports.deletarEvento = async function (req, res) {
