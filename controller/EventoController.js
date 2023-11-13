@@ -22,7 +22,15 @@ module.exports.salvarEvento = async function (req, res) {
 };
 
 module.exports.deletarEvento = async function (req, res) {
-    res.json('OK');
+    const evento = await Evento.findById(req.params.id);
+    
+    if(!evento){
+        res.status(404).json({erro: 'Evento não encontrado'});
+        return;
+    }
+    
+    await Evento.findByIdAndDelete(req.params.id);
+    res.status(200).json({mensagem: 'Evento removido com sucesso'});
 };
 
 module.exports.atualizarEvento = async function (req, res) {
