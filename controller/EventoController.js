@@ -35,5 +35,14 @@ module.exports.deletarEvento = async function (req, res) {
 };
 
 module.exports.atualizarEvento = async function (req, res) {
-    res.json('OK');
+    const evento = await Evento.findById(req.params.id);
+    
+    if(!evento){
+        res.status(404).json({erro: 'Evento não encontrado'});
+        return;
+    }
+    
+    const retorno = await Evento.findByIdAndUpdate(
+        req.params.id, req.body, {new: true});
+    res.status(200).json(retorno);
 };
