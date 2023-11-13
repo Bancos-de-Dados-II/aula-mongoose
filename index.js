@@ -1,15 +1,13 @@
-const Evento = require('./model/Evento');
+require('dotenv').config();
+const express = require('express');
+const app = express();
+app.use(express.json());
+const cors = require('cors');
+app.use(cors());
 
-const evento = new Evento({
-    titulo: 'Exponegócios',
-    descricao: 'Cajazeiras Exponegócios',
-    data: new Date("2023-11-16"),
-    inscritos: 1000,
-    tipo: 'Tecnológico',
-    localizacao: {
-        type: 'Point',
-        coordinates: [-38.5672, -6.9002]
-    }
+const eventoRouter = require('./routes/EventoRouter');
+app.use('/eventos', eventoRouter);
+
+app.listen(process.env.API_PORT, () => {
+    console.log(`Servidor rodando na porta ${process.env.API_PORT}`);
 });
-
-evento.save().then((retorno) => console.log(retorno)).catch(err => console.log(err));
